@@ -1,68 +1,442 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - BusFlux</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>
+    Register - BusFlux
+  </title>
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet"
+        href="style.css">
+
 </head>
+
 <body class="fade-in">
 
+  <!-- HEADER -->
+
   <header class="main-header">
+
     <div class="nav-container">
-      <a href="index.html" class="logo">
-        <i class="fas fa-bus-alt"></i> BusFlux
+
+      <a href="index.html"
+         class="logo">
+
+        <i class="fas fa-bus-alt"></i>
+
+        BusFlux
+
       </a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="buses.html">Buses</a></li>
-        <li><a href="register.html" class="active">Register</a></li>
+
+      <ul class="nav-links">
+
+        <li>
+          <a href="index.html">
+            Home
+          </a>
+        </li>
+
+        <li>
+          <a href="buses.html">
+            Buses
+          </a>
+        </li>
+
+        <li>
+          <a href="register.html"
+             class="active">
+            Register
+          </a>
+        </li>
+
       </ul>
+
     </div>
+
   </header>
 
+
+
+  <!-- REGISTER CONTAINER -->
+
   <div class="container">
-    <h1><span>BusFlux</span> Register</h1>
-    <p class="subtitle">Create an account for seamless ticket booking</p>
+
+    <h1>
+
+      <span>BusFlux</span>
+
+      Register
+
+    </h1>
+
+    <p class="subtitle">
+
+      Create an account for seamless ticket booking
+
+    </p>
+
+
+
+    <!-- FORM -->
 
     <form id="registerForm">
+
+
+
+      <!-- NAME -->
+
       <div class="form-group">
-        <label class="form-label" for="name">Full Name</label>
+
+        <label class="form-label">
+
+          Full Name
+
+        </label>
+
         <div class="input-wrapper">
-          <input type="text" id="name" placeholder="Enter your full name" required>
+
+          <input
+            type="text"
+            id="name"
+            placeholder="Enter your full name"
+            required
+          >
+
           <i class="fas fa-user"></i>
+
         </div>
+
       </div>
 
+
+
+      <!-- EMAIL -->
+
       <div class="form-group">
-        <label class="form-label" for="email">Email Address</label>
+
+        <label class="form-label">
+
+          Email Address
+
+        </label>
+
         <div class="input-wrapper">
-          <input type="email" id="email" placeholder="Enter your email" required>
+
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            required
+          >
+
           <i class="fas fa-envelope"></i>
+
         </div>
+
       </div>
+
+
+
+      <!-- PHONE -->
 
       <div class="form-group">
-        <label class="form-label" for="password">Password</label>
+
+        <label class="form-label">
+
+          Phone Number
+
+        </label>
+
         <div class="input-wrapper">
-          <input type="password" id="password" placeholder="Create a password" required>
-          <i class="fas fa-lock"></i>
+
+          <input
+            type="text"
+            id="phone"
+            placeholder="Enter phone number"
+            required
+          >
+
+          <i class="fas fa-phone"></i>
+
         </div>
+
       </div>
 
-      <button type="submit"><i class="fas fa-user-plus"></i> Register</button>
+
+
+      <!-- AGE -->
+
+      <div class="form-group">
+
+        <label class="form-label">
+
+          Age
+
+        </label>
+
+        <div class="input-wrapper">
+
+          <input
+            type="number"
+            id="age"
+            placeholder="Enter age"
+            required
+          >
+
+          <i class="fas fa-calendar"></i>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- AADHAAR -->
+
+      <div class="form-group">
+
+        <label class="form-label">
+
+          Aadhaar Number
+
+        </label>
+
+        <div class="input-wrapper">
+
+          <input
+            type="text"
+            id="aadhaarNumber"
+            placeholder="Enter Aadhaar number"
+            required
+          >
+
+          <i class="fas fa-id-card"></i>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- COLLEGE ID -->
+
+      <div class="form-group">
+
+        <label class="form-label">
+
+          College ID
+
+        </label>
+
+        <div class="input-wrapper">
+
+          <input
+            type="text"
+            id="collegeId"
+            placeholder="Enter College ID"
+          >
+
+          <i class="fas fa-building"></i>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- PROFILE PHOTO -->
+
+      <div class="form-group">
+
+        <label class="form-label">
+
+          Upload Profile Photo
+
+        </label>
+
+        <input
+          type="file"
+          id="userPhoto"
+          required
+        >
+
+      </div>
+
+
+
+      <!-- ID CARD -->
+
+      <div class="form-group">
+
+        <label class="form-label">
+
+          Upload ID Card
+
+        </label>
+
+        <input
+          type="file"
+          id="idCardPhoto"
+          required
+        >
+
+      </div>
+
+
+
+      <!-- SEND OTP -->
+
+      <button
+        type="button"
+        onclick="sendOtp()"
+      >
+
+        <i class="fas fa-paper-plane"></i>
+
+        Send OTP
+
+      </button>
+
+
+
+      <!-- TIMER -->
+
+      <p id="timerText"></p>
+
+
+
+      <!-- OTP SECTION -->
+
+      <div
+        id="otpSection"
+        style="display:none;"
+      >
+
+        <div class="form-group">
+
+          <label class="form-label">
+
+            Enter OTP
+
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="text"
+              id="otp"
+              placeholder="Enter OTP"
+            >
+
+            <i class="fas fa-shield-alt"></i>
+
+          </div>
+
+        </div>
+
+
+
+        <button
+          type="button"
+          onclick="verifyOtp()"
+        >
+
+          <i class="fas fa-check-circle"></i>
+
+          Verify OTP
+
+        </button>
+
+      </div>
+
+
+
+      <!-- PASSWORD -->
+
+      <div class="form-group">
+
+        <label class="form-label">
+
+          Password
+
+        </label>
+
+        <div class="input-wrapper">
+
+          <input
+            type="password"
+            id="password"
+            placeholder="Create a password"
+            required
+          >
+
+          <i class="fas fa-lock"></i>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- REGISTER -->
+
+      <button type="submit">
+
+        <i class="fas fa-user-plus"></i>
+
+        Register
+
+      </button>
+
     </form>
 
-    <p id="message" style="text-align: center; margin-top: 15px; color: var(--text-muted); font-size: 0.95rem;"></p>
+
+
+    <!-- MESSAGE -->
+
+    <p id="message"
+       style="
+         text-align:center;
+         margin-top:15px;
+         color:var(--text-muted);
+       ">
+    </p>
+
+
+
+    <!-- LOGIN LINK -->
 
     <div class="form-footer-link">
-      Already have an account? <a href="login.html">Login here</a>
+
+      Already have an account?
+
+      <a href="login.html">
+
+        Login here
+
+      </a>
+
     </div>
+
   </div>
+
+
 
   <div id="toastContainer"></div>
 
   <script src="script.js"></script>
+
 </body>
+
 </html>
+

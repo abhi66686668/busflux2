@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0">
 
   <title>
-    Login - BusFlux
+    Forgot Password - BusFlux
   </title>
 
   <link rel="stylesheet"
@@ -47,14 +47,7 @@
         </li>
 
         <li>
-          <a href="buses.html">
-            Buses
-          </a>
-        </li>
-
-        <li>
-          <a href="login.html"
-             class="active">
+          <a href="login.html">
             Login
           </a>
         </li>
@@ -67,29 +60,29 @@
 
 
 
-  <!-- LOGIN CONTAINER -->
+  <!-- CONTAINER -->
 
   <div class="container">
 
     <h1>
 
-      <span>BusFlux</span>
+      <span>Forgot</span>
 
-      Login
+      Password
 
     </h1>
 
     <p class="subtitle">
 
-      Access your digital ticket portal
+      Reset your BusFlux account password
 
     </p>
 
 
 
-    <!-- LOGIN FORM -->
+    <!-- FORGOT FORM -->
 
-    <form id="loginForm">
+    <form id="forgotForm">
 
 
 
@@ -107,7 +100,7 @@
 
           <input
             type="email"
-            id="loginEmail"
+            id="forgotEmail"
             placeholder="Enter your email"
             required
           >
@@ -120,13 +113,39 @@
 
 
 
-      <!-- PASSWORD -->
+      <!-- OTP -->
 
       <div class="form-group">
 
         <label class="form-label">
 
-          Password
+          OTP
+
+        </label>
+
+        <div class="input-wrapper">
+
+          <input
+            type="text"
+            id="forgotOtp"
+            placeholder="Enter OTP"
+          >
+
+          <i class="fas fa-shield-alt"></i>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- NEW PASSWORD -->
+
+      <div class="form-group">
+
+        <label class="form-label">
+
+          New Password
 
         </label>
 
@@ -134,9 +153,8 @@
 
           <input
             type="password"
-            id="loginPassword"
-            placeholder="Enter your password"
-            required
+            id="newPassword"
+            placeholder="Enter new password"
           >
 
           <i class="fas fa-lock"></i>
@@ -147,37 +165,32 @@
 
 
 
-      <!-- FORGOT PASSWORD -->
+      <!-- SEND OTP -->
 
-      <div
-        style="
-          text-align:right;
-          margin-bottom:15px;
-        "
+      <button
+        type="button"
+        onclick="forgotPassword()"
       >
 
-        <a href="forgot.html"
-           style="
-             color:#8b5cf6;
-             text-decoration:none;
-             font-size:14px;
-           ">
+        <i class="fas fa-paper-plane"></i>
 
-          Forgot Password?
+        Send Reset OTP
 
-        </a>
-
-      </div>
+      </button>
 
 
 
-      <!-- LOGIN BUTTON -->
+      <!-- RESET BUTTON -->
 
-      <button type="submit">
+      <button
+        type="button"
+        onclick="resetPassword()"
+        style="margin-top:15px;"
+      >
 
-        <i class="fas fa-right-to-bracket"></i>
+        <i class="fas fa-key"></i>
 
-        Login
+        Reset Password
 
       </button>
 
@@ -187,26 +200,25 @@
 
     <!-- MESSAGE -->
 
-    <p id="loginMessage"
+    <p id="forgotMessage"
        style="
          text-align:center;
          margin-top:15px;
          color:var(--text-muted);
-         font-size:0.95rem;
        ">
     </p>
 
 
 
-    <!-- REGISTER LINK -->
+    <!-- LOGIN LINK -->
 
     <div class="form-footer-link">
 
-      Don't have an account?
+      Remember password?
 
-      <a href="register.html">
+      <a href="login.html">
 
-        Register here
+        Login here
 
       </a>
 
@@ -215,10 +227,6 @@
   </div>
 
 
-
-  <!-- TOAST -->
-
-  <div id="toastContainer"></div>
 
   <script src="script.js"></script>
 

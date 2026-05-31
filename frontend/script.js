@@ -71,58 +71,316 @@ function updateNavbar() {
 document.addEventListener("DOMContentLoaded", updateNavbar);
 
 
+
 // ================= REGISTER =================
 
-const registerForm = document.getElementById("registerForm");
+const registerForm =
+  document.getElementById(
+    "registerForm"
+  );
 
-if (registerForm) {
-  registerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+if(registerForm){
 
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    
-    // UI Loading state
-    const submitBtn = registerForm.querySelector("button[type='submit']");
-    const originalBtnText = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Creating Account...`;
+  registerForm.addEventListener(
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name, email, password })
-      });
+    "submit",
 
-      const data = await response.json();
+    async (e) => {
 
-      if (response.ok) {
-        showToast(data.message || "Registration successful!", "success");
-        document.getElementById("message").innerText = "";
-        registerForm.reset();
-        
-        // Redirect after delay
-        setTimeout(() => {
-          window.location.href = "login.html";
-        }, 1500);
-      } else {
-        showToast(data.message || "Registration failed. Try again.", "error");
-        document.getElementById("message").innerText = data.message || "Registration failed.";
-        document.getElementById("message").style.color = "var(--danger)";
+      e.preventDefault();
+
+      if(!isOtpVerified){
+
+        showToast(
+          "Please verify OTP first",
+          "warning"
+        );
+
+        return;
+
       }
-    } catch (error) {
-      console.error(error);
-      showToast("Network error. Please try again later.", "error");
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalBtnText;
-    }
-  });
+
+      const submitBtn =
+        registerForm.querySelector(
+          "button[type='submit']"
+        );
+
+      const originalBtnText =
+        submitBtn.innerHTML;
+
+      submitBtn.disabled = true;
+
+      submitBtn.innerHTML =
+        `<i class="fas fa-spinner fa-spin"></i> Registering...`;
+
+      try {
+
+        const formData =
+          new FormData();
+
+        formData.append(
+          "name",
+          document.getElementById("name").value
+        );
+
+        formData.append(
+          "email",
+          document.getElementById("email").value
+        );
+
+        formData.append(
+          "phone",
+          document.getElementById("phone").value
+        );
+
+        formData.append(
+          "age",
+          document.getElementById("age").value
+        );
+
+        formData.append(
+          "aadhaarNumber",
+          document.getElementById("aadhaarNumber").value
+        );
+
+        formData.append(
+          "collegeId",
+          document.getElementById("collegeId").value
+        );
+
+        formData.append(
+          "password",
+          document.getElementById("password").value
+        );
+
+        formData.append(
+          "userPhoto",
+          document.getElementById("userPhoto").files[0]
+        );
+
+        formData.append(
+          "idCardPhoto",
+          document.getElementById("idCardPhoto").files[0]
+        );
+
+
+
+        const response =
+          await fetch(
+
+            `${API_BASE_URL}/auth/register`,
+
+            {
+
+              method: "POST",
+
+              body: formData
+
+            }
+
+          );
+
+        const data =
+          await response.json();
+
+        showToast(
+          data.message,
+          response.ok ? "success" : "error"
+        );
+
+
+
+    
+if(response.ok){
+
+  registerForm.reset();
+
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 1500);
+
 }
+
+
+
+      } catch (error) {
+
+        console.log(error);
+
+        showToast(
+          "Registration failed",
+          "error"
+        );
+
+      } finally {
+
+        submitBtn.disabled = false;
+
+        submitBtn.innerHTML =
+          originalBtnText;
+
+      }
+
+  });
+
+}
+
+
+
+// ================= OTP VERIFICATION =================
+
+let isOtpVerified = false;
+
+
+
+// SEND OTP
+async function sendOtp(){
+
+  try {
+
+    const email =
+      document.getElementById(
+        "email"
+      ).value;
+
+    if(!email){
+
+      showToast(
+        "Please enter email first",
+        "warning"
+      );
+
+      return;
+
+    }
+
+    const response =
+      await fetch(
+
+        `${API_BASE_URL}/auth/send-otp`,
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            email
+
+          })
+
+        }
+
+      );
+
+    const data =
+      await response.json();
+
+    showToast(
+      data.message,
+      response.ok ? "success" : "error"
+    );
+
+
+
+    // SHOW OTP SECTION
+    if(response.ok){
+
+      document.getElementById(
+        "otpSection"
+      ).style.display =
+        "block";
+
+    }
+
+  } catch (error) {
+
+    console.log(error);
+
+    showToast(
+      "Failed to send OTP",
+      "error"
+    );
+
+  }
+
+}
+
+
+
+// VERIFY OTP
+async function verifyOtp(){
+
+  try {
+
+    const email =
+      document.getElementById(
+        "email"
+      ).value;
+
+    const otp =
+      document.getElementById(
+        "otp"
+      ).value;
+
+    const response =
+      await fetch(
+
+        `${API_BASE_URL}/auth/verify-otp`,
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            email,
+            otp
+
+          })
+
+        }
+
+      );
+
+    const data =
+      await response.json();
+
+    showToast(
+      data.message,
+      response.ok ? "success" : "error"
+    );
+
+
+
+    if(response.ok){
+
+      isOtpVerified = true;
+
+    }
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+}
+
 
 
 // ================= LOGIN =================
@@ -460,3 +718,137 @@ function checkBookingAccess() {
     window.location.href = "bookings.html";
   }
 }
+
+
+// ================= FORGOT PASSWORD =================
+
+async function forgotPassword(){
+
+  try {
+
+    const email =
+      document.getElementById(
+        "forgotEmail"
+      ).value;
+
+    const response =
+      await fetch(
+
+        `${API_BASE_URL}/auth/forgot-password`,
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            email
+
+          })
+
+        }
+
+      );
+
+    const data =
+      await response.json();
+
+    showToast(
+      data.message,
+      response.ok ? "success" : "error"
+    );
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+}
+
+
+
+// RESET PASSWORD
+async function resetPassword(){
+
+  try {
+
+    const email =
+      document.getElementById(
+        "forgotEmail"
+      ).value;
+
+    const otp =
+      document.getElementById(
+        "forgotOtp"
+      ).value;
+
+    const newPassword =
+      document.getElementById(
+        "newPassword"
+      ).value;
+
+    const response =
+      await fetch(
+
+        `${API_BASE_URL}/auth/reset-password`,
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            email,
+            otp,
+            newPassword
+
+          })
+
+        }
+
+      );
+
+    const data =
+      await response.json();
+
+    showToast(
+      data.message,
+      response.ok ? "success" : "error"
+    );
+
+
+
+    if(response.ok){
+
+      setTimeout(() => {
+
+        window.location.href =
+          "login.html";
+
+      }, 1500);
+
+    }
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+}
+
