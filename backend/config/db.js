@@ -1,12 +1,5 @@
 const mongoose = require("mongoose");
-const dns = require("dns");
-
-// Set public DNS servers to resolve MongoDB SRV connection string correctly on local networks
-try {
-  dns.setServers(["8.8.8.8", "1.1.1.1"]);
-} catch (dnsErr) {
-  console.warn("DNS setServers warning:", dnsErr.message);
-}
+// Removed local DNS override as it causes timeouts on Render
 
 const connectDB = async () => {
   try {
