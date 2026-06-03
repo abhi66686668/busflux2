@@ -1,7 +1,7 @@
 // ================= UTILITIES & GLOBAL SETTINGS =================
 
 // Base URL for backend API
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "/api";
 
 // Custom Toast Notification System
 function showToast(message, type = 'info') {

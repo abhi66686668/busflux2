@@ -157,7 +157,7 @@
       if (!token) return window.location.href = "login.html";
 
       try {
-        const res = await fetch("http://localhost:5000/api/auth/me", {
+        const res = await fetch("/api/auth/me", {
           headers: { "Authorization": `Bearer ${token}` }
         });
         const user = await res.json();
@@ -171,7 +171,7 @@
           document.getElementById('idNumber').value = user.aadhaarNumber || user.collegeId || "Not Provided";
           
           if (user.userPhoto) {
-            document.getElementById('profileImage').src = "http://localhost:5000/" + user.userPhoto;
+            document.getElementById('profileImage').src = "/" + user.userPhoto;
           }
         }
       } catch (err) {
@@ -209,7 +209,7 @@
       }
 
       try {
-        const res = await fetch("http://localhost:5000/api/auth/me", {
+        const res = await fetch("/api/auth/me", {
           method: "PUT",
           headers: {
             "Authorization": `Bearer ${token}`

@@ -128,20 +128,12 @@ app.use("/api/conductor", require("./routes/conductorRoutes"));
 
 
 
-// ================= HOME ROUTE =================
+// ================= STATIC FRONTEND =================
+const path = require("path");
+app.use(express.static(path.join(__dirname, "../frontend")));
 
-app.get(
-
-  "/",
-
-  (req, res) => {
-
-    res.send(
-
-      "BusFlux Backend Running 🚍"
-
-    );
-
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/index.html"));
 });
 
 
