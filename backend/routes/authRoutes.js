@@ -104,29 +104,21 @@ router.post(
 
 
       // SEND EMAIL
-      await transporter.sendMail({
-
-        from:
-          process.env.EMAIL_USER,
-
-        to:
-          email,
-
-        subject:
-          "BusFlux OTP Verification",
-
-        text:
-          `Your BusFlux OTP is ${otp}`
-
-      });
-
-
+      let emailSent = true;
+      try {
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: email,
+          subject: "BusFlux OTP Verification",
+          text: `Your BusFlux OTP is ${otp}`
+        });
+      } catch (mailError) {
+        console.error("[OTP Service] Nodemailer failed to send email:", mailError.message);
+        emailSent = false;
+      }
 
       return res.status(200).json({
-
-        message:
-          "OTP sent successfully"
-
+        message: emailSent ? "OTP sent successfully" : `OTP simulated! (Dev Fallback: Code is ${otp})`
       });
 
     } catch (error) {
@@ -644,29 +636,21 @@ router.post(
 
 
       // SEND RESET EMAIL
-      await transporter.sendMail({
-
-        from:
-          process.env.EMAIL_USER,
-
-        to:
-          email,
-
-        subject:
-          "BusFlux Password Reset OTP",
-
-        text:
-          `Your password reset OTP is ${otp}`
-
-      });
-
-
+      let emailSent = true;
+      try {
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: email,
+          subject: "BusFlux Password Reset OTP",
+          text: `Your password reset OTP is ${otp}`
+        });
+      } catch (mailError) {
+        console.error("[OTP Service] Nodemailer failed to send reset email:", mailError.message);
+        emailSent = false;
+      }
 
       return res.status(200).json({
-
-        message:
-          "Reset OTP sent"
-
+        message: emailSent ? "Reset OTP sent" : `Reset OTP simulated! (Dev Fallback: Code is ${otp})`
       });
 
     } catch (error) {
