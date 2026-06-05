@@ -1239,34 +1239,128 @@ button:active {
 }
 .payment-processing i { font-size: 3.5rem; color: #6366f1; }
 
-/* ================= RESPONSIVE ENHANCEMENTS (MOBILE & LAPTOP) ================= */
+/* ================= RESPONSIVE ENHANCEMENTS (MOBILE, TABLET, LAPTOP) ================= */
 
-/* 1. Navigation Header & Layout (Mobile) */
-@media (max-width: 600px) {
+/* Passenger Mobile Menu Toggle Button */
+.nav-toggle-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+  z-index: 101;
+}
+
+.nav-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #a855f7;
+}
+
+/* 1. Tablet and Mobile Viewports (Navbar sliding drawer) */
+@media (max-width: 900px) {
   .main-header {
-    padding: 0.8rem 1rem !important;
-    margin-bottom: 1rem !important;
+    padding: 0.8rem 1.5rem !important;
+    margin-bottom: 1.5rem !important;
   }
   .nav-container {
-    flex-direction: column !important;
-    gap: 10px !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
     align-items: center !important;
+    width: 100% !important;
+  }
+  .nav-toggle-btn {
+    display: block !important;
   }
   .nav-links {
+    position: fixed !important;
+    top: 0;
+    right: -100% !important;
+    width: 280px !important;
+    height: 100vh !important;
+    background: rgba(15, 23, 42, 0.97) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border-left: 1px solid var(--glass-border) !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    padding: 90px 24px 30px !important;
+    gap: 16px !important;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    z-index: 100 !important;
+    margin: 0 !important;
+  }
+  .nav-links.open {
+    right: 0 !important;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5) !important;
+  }
+  .nav-links li {
     width: 100% !important;
-    justify-content: center !important;
-    gap: 8px !important;
-    padding: 0 !important;
+    margin: 0 !important;
   }
   .nav-links a {
-    font-size: 0.8rem !important;
-    padding: 4px 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px 16px !important;
+    font-size: 0.95rem !important;
+    border-radius: var(--radius-md) !important;
+    width: 100% !important;
+    color: var(--text-main) !important;
   }
-  .logo {
-    font-size: 1.35rem !important;
+  .nav-links a:hover, .nav-links a.active {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: var(--text-main) !important;
+  }
+  .nav-links a.nav-wallet-btn {
+    border: 1px solid rgba(99, 102, 241, 0.3) !important;
+    background: rgba(99, 102, 241, 0.1) !important;
+  }
+  .nav-links a.nav-btn {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+    justify-content: center !important;
+    font-weight: 700 !important;
+    margin-top: 10px !important;
+  }
+  .logout-btn-nav {
+    width: 100% !important;
+    padding: 12px !important;
+    font-size: 0.95rem !important;
+    margin-top: 10px !important;
+    text-align: center !important;
+  }
+}
+
+/* 2. Tablet Screen Adjustments (< 768px) */
+@media (max-width: 768px) {
+  .ticket-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 15px !important;
+  }
+  #busList {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+}
+
+/* 3. Mobile Screens (< 576px) */
+@media (max-width: 576px) {
+  .container {
+    padding: 24px 16px !important;
+    width: 95% !important;
+    margin: 20px auto !important;
+  }
+  .container-wide {
+    padding: 20px 12px !important;
+    width: 96% !important;
+    margin: 15px auto !important;
   }
   h1 {
-    font-size: 2rem !important;
+    font-size: 1.7rem !important;
   }
   .subtitle {
     font-size: 0.88rem !important;
@@ -1274,7 +1368,7 @@ button:active {
   }
 }
 
-/* 2. Compact Forms (Mobile padding reduction) */
+/* 4. Small Mobile Screen Padding Tweaks (< 480px) */
 @media (max-width: 480px) {
   .auth-box {
     padding: 24px 16px !important;
@@ -1282,35 +1376,19 @@ button:active {
   .profile-container {
     padding: 20px 14px !important;
     margin: 20px auto !important;
+    width: 95% !important;
   }
   .wallet-panel {
     padding: 18px 12px !important;
   }
-}
-
-/* 3. Ticket Grid Layout (Laptop vs. Mobile) */
-@media (min-width: 768px) {
-  .ticket-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 20px !important;
-  }
-}
-
-/* 4. Bus Search Cards Grid (Laptop vs. Mobile) */
-@media (min-width: 768px) {
-  #busList {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 24px !important;
-  }
-}
-
-/* 5. Booking Modal Responsiveness */
-@media (max-width: 480px) {
   .bk-modal {
     padding: 24px 16px !important;
   }
   .bk-row {
     grid-template-columns: 1fr !important;
     gap: 0 !important;
+  }
+  .ticket-grid {
+    grid-template-columns: 1fr !important;
   }
 }

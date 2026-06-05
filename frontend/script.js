@@ -105,6 +105,20 @@ async function updateNavbar() {
     `;
     navLinks.innerHTML = html;
   }
+
+  // Dynamic Mobile Nav Toggle Injection
+  const navContainer = navLinks.parentElement;
+  if (navContainer && !document.getElementById("navToggle")) {
+    const toggleBtn = document.createElement("button");
+    toggleBtn.id = "navToggle";
+    toggleBtn.className = "nav-toggle-btn";
+    toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    toggleBtn.onclick = () => {
+      navLinks.classList.toggle("open");
+      toggleBtn.innerHTML = navLinks.classList.contains("open") ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    };
+    navContainer.appendChild(toggleBtn);
+  }
 }
 
 // Run navbar setup when DOM loads

@@ -167,6 +167,20 @@
       .reg-card { padding: 24px 18px; }
       .step-connector { width: 36px; }
     }
+    @media(max-width: 480px) {
+      .step-label { display: none; }
+      .step-circle { width: 40px; height: 40px; font-size: 1rem; }
+      .step-connector { width: 25px; margin-bottom: 0; }
+      .steps-bar { align-items: center; margin-bottom: 20px; }
+      .email-row, .otp-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .otp-send-btn, .otp-verify-btn {
+        width: 100% !important;
+      }
+    }
 
     /* Email row with inline button */
     .email-row {
