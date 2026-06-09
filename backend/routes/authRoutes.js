@@ -239,13 +239,13 @@ router.post(
     },
 
     {
-
       name: "idCardPhoto",
-
       maxCount: 1
-
+    },
+    {
+      name: "studentIdPhoto",
+      maxCount: 1
     }
-
   ]),
 
   async (req, res) => {
@@ -263,7 +263,13 @@ router.post(
       phone,
       age,
       aadhaarNumber,
-      collegeId
+      collegeId,
+      gender,
+      institutionType,
+      institutionName,
+      course,
+      studentIdNumber,
+      dob
     } = req.body;
 
 
@@ -351,6 +357,14 @@ router.post(
 
       user.collegeId =
         collegeId;
+        
+      user.gender = gender;
+      
+      if (institutionType) user.institutionType = institutionType;
+      if (institutionName) user.institutionName = institutionName;
+      if (course) user.course = course;
+      if (studentIdNumber) user.studentIdNumber = studentIdNumber;
+      if (dob) user.dob = dob;
 
       user.password =
         hashedPassword;
@@ -370,6 +384,12 @@ router.post(
         const f = req.files.idCardPhoto[0];
         user.idCardPhoto = `data:${f.mimetype};base64,${f.buffer.toString('base64')}`;
       }
+      
+      // STUDENT ID PHOTO
+      if(req.files && req.files.studentIdPhoto){
+        const f = req.files.studentIdPhoto[0];
+        user.studentIdPhoto = `data:${f.mimetype};base64,${f.buffer.toString('base64')}`;
+      }
 
 
 
@@ -386,12 +406,20 @@ try {
     targetRole: "admin"
   });
   
+  await Notification.create({
+    title: "Welcome to BusFlux!",
+    message: `Hello ${user.name}, your account has been successfully created.`,
+    type: "success",
+    targetRole: "user",
+    targetUser: user._id
+  });
+
   const io = req.app.get('io');
   if (io) {
     io.emit('new_admin_notification', notif);
   }
 } catch (err) {
-  console.error("Failed to create admin notification:", err.message);
+  console.error("Failed to create notifications:", err.message);
 }
 
 
@@ -769,6 +797,34 @@ router.get("/me", auth, async (req, res) => {
     const userObj = user.toObject();
     userObj.profileQr = qrDataUrl;
 
+    // Dynamically calculate actual age from dob so it never becomes outdated
+    if (userObj.dob) {
+      const dateStr = userObj.dob;
+      let calculatedAge = userObj.age || 0;
+      const currentYear = new Date().getFullYear();
+      if (dateStr.length === 4) {
+        calculatedAge = currentYear - parseInt(dateStr);
+      } else {
+        const parts = dateStr.split('/');
+        if (parts.length === 3) {
+          const dobDate = new Date(parts[2], parts[1] - 1, parts[0]);
+          const today = new Date();
+          calculatedAge = today.getFullYear() - dobDate.getFullYear();
+          const m = today.getMonth() - dobDate.getMonth();
+          if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
+              calculatedAge--;
+          }
+        }
+      }
+      userObj.age = calculatedAge;
+      
+      // Update DB in background if age has progressed
+      if (calculatedAge > 0 && calculatedAge !== user.age) {
+          user.age = calculatedAge;
+          user.save().catch(e => console.error(e));
+      }
+    }
+
     return res.status(200).json(userObj);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -940,6 +996,31 @@ router.get("/wallet/transactions", auth, async (req, res) => {
     combined.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     
     res.status(200).json(combined);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// ================= GET USER NOTIFICATIONS =================
+router.get("/notifications", auth, async (req, res) => {
+  try {
+    const notifications = await Notification.find({ targetUser: req.user.id })
+      .sort({ createdAt: -1 })
+      .limit(20);
+    res.status(200).json(notifications);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// ================= MARK NOTIFICATIONS AS READ =================
+router.put("/notifications/read", auth, async (req, res) => {
+  try {
+    await Notification.updateMany(
+      { targetUser: req.user.id, read: false },
+      { $set: { read: true } }
+    );
+    res.status(200).json({ message: "Notifications marked as read" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

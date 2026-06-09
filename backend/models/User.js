@@ -57,6 +57,12 @@ const userSchema =
 
 
 
+      // GENDER
+      gender: {
+        type: String,
+        default: ""
+      },
+
       // AGE
       age: {
 
@@ -92,14 +98,39 @@ const userSchema =
 
       // COLLEGE ID
       collegeId: {
-
         type: String,
-
         default: ""
-
       },
 
-
+      // STUDENT ID NUMBER
+      studentIdNumber: {
+        type: String,
+        default: ""
+      },
+      
+      // INSTITUTION TYPE
+      institutionType: {
+        type: String,
+        default: ""
+      },
+      
+      // INSTITUTION NAME
+      institutionName: {
+        type: String,
+        default: ""
+      },
+      
+      // COURSE
+      course: {
+        type: String,
+        default: ""
+      },
+      
+      // STUDENT ID PHOTO
+      studentIdPhoto: {
+        type: String,
+        default: ""
+      },
 
       // PROFILE PHOTO
       userPhoto: {

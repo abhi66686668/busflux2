@@ -94,9 +94,27 @@ async function updateNavbar() {
             <li><a href="wallet.html" class="nav-wallet-btn ${page === 'wallet.html' ? 'active' : ''}"><i class="fas fa-wallet"></i> Wallet: <span id="navWalletBalance">₹${balance}</span></a></li>
             <li><a href="bookings.html" class="${page === 'bookings.html' ? 'active' : ''}"><i class="fas fa-ticket"></i> My Bookings</a></li>
             <li><a href="profile.html" class="${page === 'profile.html' ? 'active' : ''}"><i class="fas fa-user"></i> Profile</a></li>
+            <li style="position: relative;">
+              <div class="user-noti-bell" onclick="toggleUserNotiDropdown(event)">
+                <i class="fas fa-bell"></i>
+                <div class="noti-dot" id="userNotiDot" style="display: none;"></div>
+                <div id="userNotiDropdown" class="user-noti-dropdown" style="display: none;">
+                  <div class="noti-header">
+                    <h4>Notifications</h4>
+                    <button onclick="clearUserNotifications(event)">Clear all</button>
+                  </div>
+                  <div id="userNotiList" class="noti-list">
+                    <div style="text-align: center; color: #94a3b8; padding: 15px;">Loading...</div>
+                  </div>
+                </div>
+              </div>
+            </li>
             <li><button class="logout-btn-nav" onclick="logout()"><i class="fas fa-right-from-bracket"></i> Logout</button></li>
           `;
           navLinks.innerHTML = html;
+          
+          // Fetch notifications after rendering nav
+          fetchUserNotifications();
         }
       } else {
         // If fetch fails but token exists, clear token and fallback to login
@@ -132,6 +150,86 @@ async function updateNavbar() {
 
 // Run navbar setup when DOM loads
 document.addEventListener("DOMContentLoaded", updateNavbar);
+
+// ================= USER NOTIFICATIONS =================
+async function fetchUserNotifications() {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+  try {
+    const res = await fetch(`${API_BASE_URL}/auth/notifications`, { headers: { "Authorization": `Bearer ${token}` } });
+    if (res.ok) {
+      const notifications = await res.json();
+      renderUserNotifications(notifications);
+    }
+  } catch (err) {
+    console.error("Failed to fetch user notifications", err);
+  }
+}
+
+function renderUserNotifications(notifications) {
+  const list = document.getElementById("userNotiList");
+  const dot = document.getElementById("userNotiDot");
+  if (!list || !dot) return;
+
+  if (notifications.length === 0) {
+    list.innerHTML = `<div style="text-align: center; color: #94a3b8; padding: 20px 0;">No new notifications.</div>`;
+    dot.style.display = "none";
+    return;
+  }
+
+  const hasUnread = notifications.some(n => !n.read);
+  dot.style.display = hasUnread ? "block" : "none";
+
+  list.innerHTML = notifications.map(n => {
+    const d = new Date(n.createdAt);
+    let timeStr = "";
+    const diff = (Date.now() - d) / 1000;
+    if (diff < 60) timeStr = "Just now";
+    else if (diff < 3600) timeStr = Math.floor(diff/60) + "m ago";
+    else if (diff < 86400) timeStr = Math.floor(diff/3600) + "h ago";
+    else timeStr = d.toLocaleDateString();
+
+    return `
+      <div class="user-noti-item ${n.read ? '' : 'unread'}">
+        <div class="title">${n.title}</div>
+        <div class="msg">${n.message}</div>
+        <div class="time">${timeStr}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleUserNotiDropdown(e) {
+  e.stopPropagation();
+  const dropdown = document.getElementById("userNotiDropdown");
+  if (dropdown) {
+    dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+  }
+}
+
+async function clearUserNotifications(e) {
+  e.stopPropagation();
+  const token = localStorage.getItem("token");
+  if (!token) return;
+  
+  try {
+    await fetch(`${API_BASE_URL}/auth/notifications/read`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+    fetchUserNotifications();
+  } catch (err) {
+    console.error("Failed to mark notifications read", err);
+  }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener("click", (e) => {
+  const dropdown = document.getElementById("userNotiDropdown");
+  if (dropdown && !e.target.closest('.user-noti-bell')) {
+    dropdown.style.display = "none";
+  }
+});
 
 
 
@@ -188,19 +286,26 @@ if(registerForm){
         );
 
         formData.append(
+          "gender",
+          document.getElementById("gender").value
+        );
+
+        formData.append(
           "age",
           document.getElementById("age").value
         );
+
+        const dobField = document.getElementById("dob");
+        if (dobField && dobField.value) {
+            formData.append("dob", dobField.value);
+        }
 
         formData.append(
           "aadhaarNumber",
           document.getElementById("aadhaarNumber").value
         );
 
-        formData.append(
-          "collegeId",
-          document.getElementById("collegeId").value
-        );
+
 
         formData.append(
           "password",
@@ -216,6 +321,17 @@ if(registerForm){
           "idCardPhoto",
           document.getElementById("idCardPhoto").files[0]
         );
+        
+        if (document.getElementById('studentSection').style.display === 'block') {
+          formData.append("institutionType", document.getElementById("institutionType").value);
+          formData.append("institutionName", document.getElementById("institutionName").value);
+          formData.append("course", document.getElementById("course").value);
+          formData.append("studentIdNumber", document.getElementById("studentIdNumber").value);
+          const studentIdFile = document.getElementById("studentIdPhoto").files[0];
+          if (studentIdFile) {
+            formData.append("studentIdPhoto", studentIdFile);
+          }
+        }
 
 
 

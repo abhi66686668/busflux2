@@ -644,32 +644,23 @@
               </div>
             </div>
 
-            <!-- Age -->
+            <!-- Gender -->
             <div class="form-group">
-              <label class="form-label">Age</label>
+              <label class="form-label">Gender</label>
               <div class="input-wrapper">
-                <input type="number" id="age" placeholder="e.g. 21" min="5" max="99" required>
-                <i class="fas fa-calendar"></i>
+                <select id="gender" required style="width: 100%; padding: 12px 16px 12px 40px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-light); font-size: 0.95rem; appearance: none; -webkit-appearance: none;">
+                  <option value="" disabled selected>Select Gender</option>
+                  <option value="Male" style="background: var(--card-bg);">Male</option>
+                  <option value="Female" style="background: var(--card-bg);">Female</option>
+                  <option value="Other" style="background: var(--card-bg);">Other</option>
+                </select>
+                <i class="fas fa-venus-mars"></i>
               </div>
             </div>
 
-            <!-- Aadhaar -->
-            <div class="form-group">
-              <label class="form-label">Aadhaar Number</label>
-              <div class="input-wrapper">
-                <input type="text" id="aadhaarNumber" placeholder="XXXX XXXX XXXX" maxlength="14" required>
-                <i class="fas fa-id-card"></i>
-              </div>
-            </div>
-
-            <!-- College ID -->
-            <div class="form-group">
-              <label class="form-label">College ID <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
-              <div class="input-wrapper">
-                <input type="text" id="collegeId" placeholder="e.g. CSE2024001">
-                <i class="fas fa-building"></i>
-              </div>
-            </div>
+            <!-- Hidden Fields (Auto-filled by Aadhaar scan) -->
+            <input type="hidden" id="age" value="">
+            <input type="hidden" id="aadhaarNumber" value="">
           </div>
 
           <div class="step-actions">
@@ -684,15 +675,18 @@
           <div class="section-header">
             <div class="section-icon"><i class="fas fa-camera"></i></div>
             <div>
-              <h2>Photo Documents</h2>
-              <p>Upload your profile photo and college ID card</p>
+              <h2>Identity Documents</h2>
+              <p>Upload your profile photo and Aadhaar card (auto-detects Age)</p>
             </div>
           </div>
 
           <div class="form-grid">
             <!-- Profile Photo -->
             <div class="form-group">
-              <label class="form-label">Profile Photo</label>
+              <label class="form-label" style="display: flex; justify-content: space-between;">
+                <span>Profile Photo</span>
+                <a href="#" onclick="openProfileSampleModal(); return false;" style="font-size:0.75rem; color: #818cf8; text-decoration: underline;">View Sample</a>
+              </label>
               <div class="upload-area" id="profileUploadArea">
                 <input type="file" id="userPhoto" accept="image/*" required onchange="previewFile(this,'profilePreview','profileUploadName')">
                 <i class="fas fa-user-circle"></i>
@@ -703,18 +697,95 @@
               </div>
             </div>
 
-            <!-- ID Card Photo -->
+            <!-- Aadhaar Card Photo -->
             <div class="form-group">
-              <label class="form-label">College ID Card</label>
+              <label class="form-label" style="display: flex; justify-content: space-between;">
+                <span>Aadhaar Card <span id="aadhaarStatus" style="font-size:0.75rem;margin-left:6px;color:#818cf8;"></span></span>
+                <a href="#" onclick="openSampleModal(); return false;" style="font-size:0.75rem; color: #818cf8; text-decoration: underline;">View Sample</a>
+              </label>
               <div class="upload-area" id="idCardUploadArea">
-                <input type="file" id="idCardPhoto" accept="image/*" required onchange="previewFile(this,'idPreview','idUploadName')">
-                <i class="fas fa-id-badge"></i>
-                <p>Click to upload</p>
+                <input type="file" id="idCardPhoto" accept="image/*" required onchange="previewFile(this,'idPreview','idUploadName'); processAadhaar(this);">
+                <i class="fas fa-id-card" id="aadhaarScanIcon"></i>
+                <p id="aadhaarScanText">Click to upload Aadhaar</p>
                 <p style="font-size:0.72rem;margin-top:4px;opacity:0.6">JPG, PNG, WEBP</p>
                 <div class="upload-name" id="idUploadName"></div>
-                <img class="upload-preview" id="idPreview" alt="ID preview">
+                <img class="upload-preview" id="idPreview" alt="Aadhaar preview">
               </div>
             </div>
+
+            <!-- Conditional Student Section (hidden by default) -->
+            <div id="studentSection" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+              <h3 style="font-size: 1rem; color: var(--text-light); margin-bottom: 15px;"><i class="fas fa-graduation-cap" style="color: #818cf8; margin-right: 8px;"></i>Student Verification</h3>
+              
+              <!-- Institution Type -->
+              <div class="form-group">
+                <label class="form-label">Institution Type</label>
+                <div class="input-wrapper">
+                  <select id="institutionType" onchange="handleInstitutionTypeChange()" style="width: 100%; padding: 12px 16px 12px 40px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-light); font-size: 0.95rem; appearance: none; -webkit-appearance: none;">
+                    <option value="" disabled selected>Select School or College</option>
+                    <option value="School" style="background: var(--card-bg);">School</option>
+                    <option value="College" style="background: var(--card-bg);">College</option>
+                  </select>
+                  <i class="fas fa-university"></i>
+                </div>
+              </div>
+
+              <!-- Hidden Master Institution Name for Form Data -->
+              <input type="hidden" id="institutionName" value="">
+
+              <!-- Institution Name (School Dropdown) -->
+              <div class="form-group" id="schoolNameGroup" style="display:none; margin-top: 15px;">
+                <label class="form-label">School Name</label>
+                <div class="input-wrapper">
+                  <input type="text" id="schoolName" list="schoolList" placeholder="Search or select school" oninput="document.getElementById('institutionName').value = this.value">
+                  <datalist id="schoolList"></datalist>
+                  <i class="fas fa-building"></i>
+                </div>
+              </div>
+
+              <!-- Institution Name (College Dropdown) -->
+              <div class="form-group" id="collegeNameGroup" style="display:none; margin-top: 15px;">
+                <label class="form-label">College Name</label>
+                <div class="input-wrapper">
+                  <input type="text" id="collegeName" list="collegeList" placeholder="Search or select college" oninput="handleCollegeChange()">
+                  <datalist id="collegeList"></datalist>
+                  <i class="fas fa-building"></i>
+                </div>
+              </div>
+
+              <!-- Course (College Dropdown) -->
+              <div class="form-group" id="courseGroup" style="display:none; margin-top: 15px;">
+                <label class="form-label">Course</label>
+                <div class="input-wrapper">
+                  <input type="text" id="course" list="courseList" placeholder="Search or select course">
+                  <datalist id="courseList"></datalist>
+                  <i class="fas fa-book"></i>
+                </div>
+              </div>
+
+              <!-- Student ID Card Number -->
+              <div class="form-group" style="margin-top: 15px;">
+                <label class="form-label">Student ID Number</label>
+                <div class="input-wrapper">
+                  <input type="text" id="studentIdNumber" placeholder="Enter Student ID Number">
+                  <i class="fas fa-id-card"></i>
+                </div>
+              </div>
+
+              <!-- ID Card Upload -->
+              <div class="form-group" style="margin-top: 15px;">
+                <label class="form-label">Student ID Card</label>
+                <div class="upload-area" id="studentIdUploadArea">
+                  <input type="file" id="studentIdPhoto" accept="image/*" onchange="previewFile(this,'studentIdPreview','studentIdUploadName')">
+                  <i class="fas fa-id-badge"></i>
+                  <p>Click to upload ID Card</p>
+                  <p style="font-size:0.72rem;margin-top:4px;opacity:0.6">JPG, PNG, WEBP</p>
+                  <div class="upload-name" id="studentIdUploadName"></div>
+                  <img class="upload-preview" id="studentIdPreview" alt="Student ID preview">
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <div class="step-actions" style="display: flex; gap: 12px;">
@@ -769,6 +840,28 @@
 
   <div id="toastContainer"></div>
 
+  <!-- Sample Aadhaar Modal -->
+  <div id="sampleModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center; opacity:0; transition: opacity 0.3s ease;">
+    <div style="background:var(--card-bg); padding:20px; border-radius:12px; max-width:400px; width:90%; position:relative; border: 1px solid var(--border-color); text-align:center;">
+      <button onclick="closeSampleModal()" style="position:absolute; top:10px; right:15px; background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;">&times;</button>
+      <h3 style="margin-bottom:15px; font-size:1.1rem; color:var(--text-light);">Sample Aadhaar Card</h3>
+      <img src="sample_aadhaar.png" alt="Sample Aadhaar" style="max-width:100%; border-radius:8px; margin-bottom:10px;">
+      <p style="font-size:0.85rem; color:var(--text-muted);">Please upload a clear image of your Aadhaar card where the Date of Birth and 12-digit number are visible.</p>
+      <button onclick="closeSampleModal()" class="btn-primary" style="margin-top:15px; padding:8px 20px; width:100%; border-radius: 8px; border: none; background: #818cf8; color: white; cursor: pointer;">Got it</button>
+    </div>
+  </div>
+
+  <!-- Sample Profile Modal -->
+  <div id="sampleProfileModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center; opacity:0; transition: opacity 0.3s ease;">
+    <div style="background:var(--card-bg); padding:20px; border-radius:12px; max-width:400px; width:90%; position:relative; border: 1px solid var(--border-color); text-align:center;">
+      <button onclick="closeProfileSampleModal()" style="position:absolute; top:10px; right:15px; background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;">&times;</button>
+      <h3 style="margin-bottom:15px; font-size:1.1rem; color:var(--text-light);">Sample Profile Photo</h3>
+      <img id="profileSampleImg" src="sample_profile_male.png" alt="Sample Profile" style="max-width:100%; border-radius:8px; margin-bottom:10px;">
+      <p style="font-size:0.85rem; color:var(--text-muted);">Please upload a clear, passport-style photo with your face fully visible and well-lit.</p>
+      <button onclick="closeProfileSampleModal()" class="btn-primary" style="margin-top:15px; padding:8px 20px; width:100%; border-radius: 8px; border: none; background: #818cf8; color: white; cursor: pointer;">Got it</button>
+    </div>
+  </div>
+
   <script src="script.js?v=2"></script>
   <script>
     let currentStep = 1;
@@ -780,20 +873,35 @@
           const name = document.getElementById("name").value.trim();
           const email = document.getElementById("email").value.trim();
           const phone = document.getElementById("phone").value.trim();
-          const age = document.getElementById("age").value.trim();
-          const aadhaar = document.getElementById("aadhaarNumber").value.trim();
+          const gender = document.getElementById("gender").value;
           
-          if (!name || !email || !phone || !age || !aadhaar) {
-            showToast("Please fill in all required fields first.", "warning");
+          if (!name || !email || !phone || !gender) {
+            showToast("Please fill in Name, Email, Phone, and Gender.", "warning");
             return;
           }
         }
         if (currentStep === 2) {
           const p = document.getElementById('userPhoto').files[0];
           const i = document.getElementById('idCardPhoto').files[0];
+          
           if (!p || !i) {
-            showToast("Please upload both required photo documents.", "warning");
+            showToast("Please upload both documents.", "warning");
             return;
+          }
+          if (!window.aadhaarVerified) {
+            showToast("Please upload a valid Aadhaar Card and wait for age verification to complete.", "error");
+            return;
+          }
+          
+          if (document.getElementById('studentSection').style.display === 'block') {
+            const instType = document.getElementById('institutionType').value;
+            const instName = document.getElementById('institutionName').value.trim();
+            const course = instType === 'College' ? document.getElementById('course').value : true;
+            const studId = document.getElementById('studentIdPhoto').files[0];
+            if (!instType || !instName || !course || !studId) {
+              showToast("Please complete all Student Verification fields.", "warning");
+              return;
+            }
           }
         }
       }
@@ -847,11 +955,20 @@
       };
       reader.readAsDataURL(file);
 
-      // Check if both files are selected to enable "Continue"
+      // Check if required files are selected to enable "Continue"
       setTimeout(() => {
         const p = document.getElementById('userPhoto').files[0];
         const i = document.getElementById('idCardPhoto').files[0];
-        if (p && i) {
+        const studentSec = document.getElementById('studentSection');
+        
+        let isValid = p && i;
+        
+        if (studentSec && studentSec.style.display === 'block') {
+          const s = document.getElementById('studentIdPhoto').files[0];
+          if (!s) isValid = false;
+        }
+
+        if (isValid) {
           document.getElementById('uploadNextBtn').disabled = false;
         } else {
           document.getElementById('uploadNextBtn').disabled = true;
@@ -871,7 +988,310 @@
         ico.classList.replace('fa-lock-open', 'fa-lock');
       }
     }
+
+    // ── Sample Modal ──
+    function openSampleModal() {
+      const modal = document.getElementById('sampleModal');
+      modal.style.display = 'flex';
+      setTimeout(() => modal.style.opacity = '1', 10);
+    }
+    function closeSampleModal() {
+      const modal = document.getElementById('sampleModal');
+      modal.style.opacity = '0';
+      setTimeout(() => modal.style.display = 'none', 300);
+    }
+    
+    // ── Sample Profile Modal ──
+    function openProfileSampleModal() {
+      const gender = document.getElementById('gender').value;
+      const img = document.getElementById('profileSampleImg');
+      
+      if (gender === 'Female') {
+        img.src = 'sample_profile_female.png';
+      } else {
+        img.src = 'sample_profile_male.png';
+      }
+
+      const modal = document.getElementById('sampleProfileModal');
+      modal.style.display = 'flex';
+      setTimeout(() => modal.style.opacity = '1', 10);
+    }
+    function closeProfileSampleModal() {
+      const modal = document.getElementById('sampleProfileModal');
+      modal.style.opacity = '0';
+      setTimeout(() => modal.style.display = 'none', 300);
+    }
+    // ── Aadhaar OCR ──
+    window.aadhaarVerified = false;
+
+    async function processAadhaar(input) {
+      window.aadhaarVerified = false;
+      const file = input.files[0];
+      if (!file) return;
+      
+      const icon = document.getElementById('aadhaarScanIcon');
+      const text = document.getElementById('aadhaarScanText');
+      const statusSpan = document.getElementById('aadhaarStatus');
+      
+      icon.className = 'fas fa-spinner fa-spin';
+      icon.style.color = '#818cf8';
+      text.textContent = 'Scanning Aadhaar... Please wait.';
+      if(statusSpan) statusSpan.textContent = '(Scanning...)';
+      
+      try {
+        const result = await Tesseract.recognize(file, 'eng');
+        const textData = result.data.text;
+        
+        // Check if it's likely an Aadhaar card (looks for keywords or the 12-digit format)
+        const isAadhaar = /aadhaar|aadhar|government of india|dob|year of birth/i.test(textData) || /\d{4}\s\d{4}\s\d{4}/.test(textData);
+        if (!isAadhaar) {
+          throw new Error("NOT_AADHAAR");
+        }
+        
+        // Match standard format DOB: DD/MM/YYYY or YYYY
+        const dobMatch = textData.match(/(?:DOB|Year of Birth|जन्म तिथि|DOB[:\s]*)[^\d]*(\d{2}\/\d{2}\/\d{4}|\d{4})/i);
+        
+        if (dobMatch && dobMatch[1]) {
+          const dateStr = dobMatch[1];
+          let age = 0;
+          const currentYear = new Date().getFullYear();
+          
+          if (dateStr.length === 4) {
+            age = currentYear - parseInt(dateStr);
+          } else {
+            const parts = dateStr.split('/');
+            const dobDate = new Date(parts[2], parts[1] - 1, parts[0]);
+            const today = new Date();
+            age = today.getFullYear() - dobDate.getFullYear();
+            const m = today.getMonth() - dobDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
+                age--;
+            }
+          }
+          
+          if (age > 0) {
+            document.getElementById('age').value = age;
+            let dobHidden = document.getElementById('dob');
+            if (!dobHidden) {
+                dobHidden = document.createElement('input');
+                dobHidden.type = 'hidden';
+                dobHidden.id = 'dob';
+                document.body.appendChild(dobHidden);
+            }
+            dobHidden.value = dateStr;
+            text.textContent = `Success! Date of Birth detected. Exact Age: ${age} years`;
+            if(statusSpan) statusSpan.textContent = `(Age: ${age})`;
+            icon.className = 'fas fa-check-circle';
+            icon.style.color = 'var(--success)';
+            showToast('Age auto-filled from Aadhaar!', 'success');
+            
+            // Try to extract Aadhaar Number too as a bonus
+            const aadhaarMatch = textData.match(/\b\d{4}\s\d{4}\s\d{4}\b/);
+            if(aadhaarMatch) {
+              document.getElementById('aadhaarNumber').value = aadhaarMatch[0];
+            }
+            
+            // Show Student Section if age <= 24
+            if (age <= 24) {
+              document.getElementById('studentSection').style.display = 'block';
+            } else {
+              document.getElementById('studentSection').style.display = 'none';
+            }
+            
+            window.aadhaarVerified = true;
+          } else {
+            throw new Error("Invalid age");
+          }
+        } else {
+          throw new Error("NO_DOB");
+        }
+      } catch (error) {
+        console.error(error);
+        if (error.message === "NOT_AADHAAR") {
+          text.textContent = 'Please upload a valid Aadhaar card.';
+          if(statusSpan) statusSpan.textContent = '(Invalid document)';
+          showToast('This does not look like an Aadhaar card.', 'error');
+        } else if (error.message === "NO_DOB" || error.message === "Invalid age") {
+          text.textContent = 'Could not read Date of Birth clearly. Please try a better photo.';
+          if(statusSpan) statusSpan.textContent = '(DOB missing)';
+          showToast('Could not verify age from this image.', 'error');
+        } else {
+          text.textContent = 'Scan failed. Please upload a clearer image.';
+          if(statusSpan) statusSpan.textContent = '(Scan failed)';
+        }
+        icon.className = 'fas fa-times-circle';
+        icon.style.color = 'var(--danger)';
+      }
+    }
+
+    // ── College Data Logic ──
+    const collegeData = {
+      "St Aloysius College, Mangalore": ["B.Com", "BBA", "BCA", "BA", "B.Sc", "MBA", "M.Sc"],
+      "St Agnes College, Mangalore": ["B.Com", "BBA", "BCA", "BA", "B.Sc", "M.Com"],
+      "University College, Mangalore": ["BA", "B.Com", "B.Sc", "BCA", "MA"],
+      "Canara College, Mangalore": ["B.Com", "BBA", "BCA", "B.Sc", "M.Com"],
+      "Canara Evening College, Mangalore": ["B.Com"],
+      "Besant Women’s College, Mangalore": ["BBA", "B.Sc", "BCA", "BA", "B.Com"],
+      "Besant Evening College, Mangalore": ["B.Com", "M.Com"],
+      "Govinda Dasa College, Surathkal, Mangalore": ["B.Com", "BBA", "BCA", "BA", "B.Sc"],
+      "Father Muller’s College, Mangalore": ["BASLP", "M.Sc Audiology"],
+      "Dr. M.V. Shetty Institute, Mangalore": ["BSW", "BCA", "MSW"],
+      "Dr. M.V. Shetty College of Speech & Hearing, Mangalore": ["BASLP", "MASLP"],
+      "AJ Institute of Management, Mangalore": ["MBA"],
+      "AJ Institute of Speech and Hearing, Mangalore": ["BASLP"],
+      "Hira Women’s College, Mangalore": ["BA", "B.Com", "BCA"],
+      "Karavali College, Mangalore": ["B.Com", "BHM", "Interior Design"],
+      "Kanachur Institute of Management & Science, Mangalore": ["BA", "B.Com", "BCA"],
+      "Indus College, Mangalore": ["B.Com", "BBA", "BCA"],
+      "Indian Institute of Design, Mangalore": ["Interior Design", "Fashion Design"],
+      "Indian Design School, Mangalore": ["Interior Design", "Fashion Design"],
+      "Laxmi Memorial College of Hotel Management, Mangalore": ["Hospitality Science"],
+      "Mahalasa School of Art, Mangalore": ["B.V.A"],
+      "Milagres College, Mangalore": ["B.Com", "Hospitality Science", "Logistics"],
+      "Padua College of Commerce & Management, Mangalore": ["B.Com", "BBA", "BCA"],
+      "P.A. First Grade College, Mangalore": ["B.Com", "BBA", "BCA"],
+      "P.A. Institute of Undergraduate Studies, Mangalore": ["B.Com", "BBA", "BCA"],
+      "Shree Devi College, Mangalore": ["B.Com", "BBA"],
+      "Shree Devi College of Information Science, Mangalore": ["BCA", "AI", "Cyber Security"],
+      "Sri Devi College of Fashion Design, Mangalore": ["Fashion Design"],
+      "Sri Devi College of Hotel Management, Mangalore": ["Food Technology", "Hospitality"],
+      "Sri Devi College of Interior Design, Mangalore": ["Interior Design"],
+      "Sri Devi Institute of Social Work, Mangalore": ["MSW"],
+      "SDM College of Business Management, Mangalore": ["B.Com", "BCA", "BBA"],
+      "Sri Dhavala College, Moodabidri, Mangalore": ["B.Com", "BA"],
+      "Sri Gokarnanatheshwara College, Mangalore": ["BA", "B.Com", "M.Com"],
+      "Sri Narayanaguru College, Mangalore": ["B.Com"],
+      "Srinivas University Campus, Mangalore": ["BBA", "BCA", "MBA"],
+      "St Raymonds College, Mangalore": ["B.Com", "BCA"],
+      "Swastika National School College, Mangalore": ["BSW", "B.Com", "BBA"],
+      "Trisha Evening College, Mangalore": ["B.Com"],
+      "Vivekananda College, Mangalore": ["BA", "B.Sc", "B.Com", "BCA"],
+      "Yenepoya College, Mangalore": ["Commerce", "Management", "Science"],
+      "St Joseph Engineering College, Mangalore": ["Engineering", "MBA", "MCA"],
+      "Mangalore University, Mangalore": ["MBA", "M.Com", "MSc", "MA"],
+      "Government First Grade College, Mangalore": ["BA", "B.Com", "B.Sc"],
+      "Government Women’s College, Mangalore": ["BA", "B.Com", "B.Sc", "BCA"],
+      "University Evening College, Mangalore": ["B.Com", "BA"],
+      "Rosario College of Management Studies, Mangalore": ["Management Studies"],
+      "St Sebastian College of Commerce, Mangalore": ["Commerce"],
+      "Sharada College, Mangalore": ["B.Com", "BCA", "Animation"],
+      "Harvard Institute of Fire & Safety Engineering, Mangalore": ["Diploma in Fire & Industrial Safety"]
+    };
+
+    const schoolData = [
+      "St Aloysius Gonzaga School, Kodialbail, Mangalore",
+      "St Aloysius High School, Light House Hill Road, Mangalore",
+      "Lourdes Central School Bejai Mangalore CBSE, Bejai, Mangalore",
+      "Mount Carmel Central School, Maryhill, Konchady",
+      "Presidency School Mangalore, Vamanjoor, Mangalore",
+      "Podar International School Mangalore (CBSE), Kottara Chowki, Mangalore",
+      "PRESTIGE International School, Jeppinamogaru, Mangalore",
+      "St Theresa's ICSE School, Bendoor, Mangalore",
+      "Kendriya Vidyalaya - Kankanady, Kankanady, Mangalore",
+      "Kendriya Vidyalaya - Panambur, Panambur, Mangalore",
+      "DPS MRPL School, Surathkal, Mangalore",
+      "The Yenepoya School, Jeppinamogaru, Mangalore",
+      "Cambridge School, Kulashekara, Mangalore",
+      "Sri Sri Ravishankar Vidya Mandir (SSRVM), Mangalore, Karnataka, Yeyyadi, Mangalore",
+      "Noble High School Kunjathbail, Kunjathbail, Mangalore",
+      "B G S Education Centre, Kavoor, Mangalore",
+      "Manipal School, Attavar, Mangalore",
+      "The Bharath Academy, Yeyyadi, Mangalore",
+      "Sharada Vidyanikethana Public School, Thalapady, Mangalore",
+      "Canara High School, Dongerkery, Mangalore",
+      "Canara CBSE School, Kodialbail, Mangalore",
+      "St Agnes Special School, Bendore, Mangalore",
+      "Ryan International School, Surathkal, Mangalore",
+      "Sri Chaitanya School, Bangrakuloor, Mangalore",
+      "Sharada Vidyalaya, Kodialbail, Mangalore",
+      "Infant Jesus English Medium School, Bikarnakatte, Mangalore",
+      "Holy Cross School, Jeppinamogaru, Mangalore",
+      "Milagres School, Hampankatta, Mangalore",
+      "Rosario English Medium School, Pandeshwar, Mangalore",
+      "St Sebastian School, Bendur, Mangalore",
+      "St Lawrence School, Bondel, Mangalore",
+      "Sacred Heart School, Madanthyar, Mangalore",
+      "Little Flower School, Kankanady, Mangalore",
+      "Bethany High School, Vamanjoor, Mangalore",
+      "Oxford School, Pumpwell, Mangalore",
+      "Jain High School, Moodbidri Road, Mangalore",
+      "Navachetana School, Derebail, Mangalore",
+      "Blossom Public School, Kadri, Mangalore",
+      "Mangalore One School, Falnir, Mangalore",
+      "Green Valley National School, Mangalore",
+      "Alva’s High School, Moodabidri, Mangalore",
+      "Vidyadayinee High School, Surathkal, Mangalore",
+      "St Joseph School, Bajpe, Mangalore",
+      "Carmel School, Modankap, Mangalore",
+      "Presidency PU & School Campus, Vamanjoor, Mangalore",
+      "Bethany English Medium School, Kinnigoli, Mangalore",
+      "Mahabodhi School, Kodialbail, Mangalore",
+      "Lourdes English Medium School, Bejai, Mangalore",
+      "St Mary’s School, Falnir, Mangalore",
+      "Modern Public School, Kuloor, Mangalore"
+    ];
+
+    // Populate college and school dropdowns on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const collegeList = document.getElementById('collegeList');
+      Object.keys(collegeData).forEach(college => {
+        const option = document.createElement('option');
+        option.value = college;
+        collegeList.appendChild(option);
+      });
+      
+      const schoolList = document.getElementById('schoolList');
+      schoolData.forEach(school => {
+        const option = document.createElement('option');
+        option.value = school;
+        schoolList.appendChild(option);
+      });
+    });
+
+    function handleInstitutionTypeChange() {
+      const type = document.getElementById('institutionType').value;
+      const schoolGroup = document.getElementById('schoolNameGroup');
+      const collegeGroup = document.getElementById('collegeNameGroup');
+      const courseGroup = document.getElementById('courseGroup');
+      
+      // Reset values
+      document.getElementById('institutionName').value = "";
+      document.getElementById('schoolName').value = "";
+      document.getElementById('collegeName').value = "";
+      document.getElementById('course').value = "";
+      document.getElementById('courseList').innerHTML = '';
+
+      if (type === 'School') {
+        schoolGroup.style.display = 'block';
+        collegeGroup.style.display = 'none';
+        courseGroup.style.display = 'none';
+      } else if (type === 'College') {
+        schoolGroup.style.display = 'none';
+        collegeGroup.style.display = 'block';
+        courseGroup.style.display = 'block';
+      }
+    }
+
+    function handleCollegeChange() {
+      const college = document.getElementById('collegeName').value;
+      document.getElementById('institutionName').value = college;
+      const courseList = document.getElementById('courseList');
+      
+      // Reset courses
+      courseList.innerHTML = '';
+      document.getElementById('course').value = "";
+      
+      if (collegeData[college]) {
+        collegeData[college].forEach(course => {
+          const option = document.createElement('option');
+          option.value = course;
+          courseList.appendChild(option);
+        });
+      }
+    }
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 </body>
 </html>

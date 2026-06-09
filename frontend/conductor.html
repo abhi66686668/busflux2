@@ -1172,6 +1172,11 @@
 
   <script>
     const API = "/api";
+    window.getImageUrl = function(path) {
+      if (!path) return '';
+      if (path.startsWith('http') || path.startsWith('data:')) return path;
+      return `/${path.replace(/^\/+/, '')}`;
+    };
     const token = localStorage.getItem("token");
     let buses = [];
     let conductorHistory = [];
@@ -1225,6 +1230,7 @@
           }
         })
         .catch(err => {
+          console.error("Conductor auth error:", err);
           localStorage.removeItem("token");
           window.location.href = "login.html";
         });

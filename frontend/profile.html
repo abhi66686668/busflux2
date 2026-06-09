@@ -132,12 +132,12 @@
         <input type="text" id="phone" required>
       </div>
 
+      <!-- Read Only Fields -->
       <div class="form-group">
-        <label>Age</label>
-        <input type="number" id="age" required>
+        <label>Age <span style="font-size: 0.7rem; color: #f43f5e;">(Cannot be changed)</span></label>
+        <input type="text" id="age" readonly>
       </div>
 
-      <!-- Read Only Fields -->
       <div class="form-group">
         <label>Email Address <span style="font-size: 0.7rem; color: #f43f5e;">(Cannot be changed)</span></label>
         <input type="email" id="email" readonly>
@@ -246,7 +246,6 @@
       const formData = new FormData();
       formData.append('name', document.getElementById('name').value);
       formData.append('phone', document.getElementById('phone').value);
-      formData.append('age', document.getElementById('age').value);
 
       const fileInput = document.getElementById('userPhoto');
       if (fileInput.files.length > 0) {
