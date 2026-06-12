@@ -1353,7 +1353,7 @@
     async function checkBackend(fieldId, payload, defaultError) {
       const errorDiv = document.getElementById(fieldId + 'Error');
       try {
-        const res = await fetch('http://localhost:5000/api/auth/check-user', {
+        const res = await fetch(((window.location.protocol === "file:" ? "http://localhost:5000/api" : "/api") + "/auth/check-user"), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -1405,7 +1405,7 @@
           }
 
           try {
-            const res = await fetch('http://localhost:5000/api/auth/check-user', {
+            const res = await fetch(((window.location.protocol === "file:" ? "http://localhost:5000/api" : "/api") + "/auth/check-user"), {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email, phone })
@@ -1464,7 +1464,7 @@
       const aadhaarNumber = document.getElementById('aadhaarNumber').value;
       if (aadhaarNumber) {
         try {
-          const res = await fetch('http://localhost:5000/api/auth/check-user', {
+          const res = await fetch(((window.location.protocol === "file:" ? "http://localhost:5000/api" : "/api") + "/auth/check-user"), {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ aadhaarNumber })
           });
@@ -1518,7 +1518,7 @@
       }
 
       try {
-        const res = await fetch('http://localhost:5000/api/auth/register', {
+        const res = await fetch(((window.location.protocol === "file:" ? "http://localhost:5000/api" : "/api") + "/auth/register"), {
           method: 'POST', body: formData
         });
         const data = await res.json();
@@ -1647,7 +1647,7 @@
             if (aadhaarMatch) {
               const extractedAadhaar = aadhaarMatch[0];
               document.getElementById('aadhaarNumber').value = extractedAadhaar;
-              const res = await fetch('http://localhost:5000/api/auth/check-user', {
+              const res = await fetch(((window.location.protocol === "file:" ? "http://localhost:5000/api" : "/api") + "/auth/check-user"), {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ aadhaarNumber: extractedAadhaar })
               });

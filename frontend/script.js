@@ -10,7 +10,7 @@ if ('serviceWorker' in navigator) {
 // ================= UTILITIES & GLOBAL SETTINGS =================
 
 // Base URL for backend API
-const API_BASE_URL = window.location.protocol === 'file:' ? 'http://localhost:5000/api' : '/api';
+const API_BASE_URL = window.location.protocol === 'file:' ? ((window.location.protocol === "file:" ? "http://localhost:5000/api" : "/api") + "") : '/api';
 
 // Custom Toast Notification System
 function showToast(message, type = 'info') {
@@ -800,7 +800,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (ticketOverlay) ticketOverlay.addEventListener("click", e => { if (e.target === ticketOverlay) closeTicketModal(); });
 });
 
-const API = "http://localhost:5000/api";
+const API = ((window.location.protocol === "file:" ? "http://localhost:5000/api" : "/api") + "");
 let currentUserId = localStorage.getItem("currentUserId") || "";
 
 window.getImageUrl = function(path) {

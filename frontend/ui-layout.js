@@ -1,4 +1,4 @@
-const UI_API_BASE_URL = window.location.protocol === 'file:' ? 'http://localhost:5000/api' : '/api';
+const UI_API_BASE_URL = window.location.protocol === 'file:' ? ((window.location.protocol === "file:" ? "http://localhost:5000/api" : "/api") + "") : '/api';
 
 // ── Sidebar ──
 function openSidebar() {

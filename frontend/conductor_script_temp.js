@@ -1,9 +1,9 @@
 
-    const API = window.location.protocol === 'file:' ? 'http://localhost:5000/api' : '/api';
+    const API = window.location.protocol === 'file:' ? ((window.location.protocol === "file:" ? "http://localhost:5000/api" : "/api") + "") : '/api';
     window.getImageUrl = function(path) {
       if (!path) return '';
       if (path.startsWith('http') || path.startsWith('data:')) return path;
-      return `http://localhost:5000/${path.replace(/^\/+/, '')}`;
+      return `${window.location.protocol === "file:" ? "http://localhost:5000/" : "/"}` + `${path.replace(/^\/+/, '')}`;
     };
     const token = localStorage.getItem("token");
     let buses = [];

@@ -1,5 +1,5 @@
 
-const API = window.location.protocol === 'file:' ? 'http://localhost:5000/api' : '/api';
+const API = window.location.protocol === 'file:' ? ((window.location.protocol === "file:" ? "http://localhost:5000/api" : "/api") + "") : '/api';
 let adminToken = localStorage.getItem("adminToken") || "";
 let allUsersGrouped = {};
 let allBookingsData = [];
@@ -12,7 +12,7 @@ function getImageUrl(path) {
   if (path.startsWith('http')) return path;
   let clean = path.replace(/\\/g, '/').trim();
   if (!clean.startsWith('/')) clean = '/' + clean;
-  return "http://localhost:5000" + clean;
+  return (window.location.protocol === "file:" ? "http://localhost:5000" : "") + clean;
 }
 
 // ── Toast ──
