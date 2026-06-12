@@ -4,7 +4,7 @@ const dns = require("dns");
 // Conditionally override DNS servers locally to fix MongoDB SRV resolution issues on some local networks
 if (process.env.NODE_ENV !== "production" && !process.env.RENDER) {
   try {
-    // dns.setServers(["8.8.8.8", "1.1.1.1"]);
+    dns.setServers(["8.8.8.8", "1.1.1.1"]);
   } catch (dnsErr) {
     console.warn("DNS override warning:", dnsErr.message);
   }

@@ -513,13 +513,18 @@ Your registration was successful 🚍`
 
 
 
-return res.status(200).json({
+      const token = jwt.sign(
+        { id: user._id, role: user.role },
+        process.env.JWT_SECRET || "defaultsecret",
+        { expiresIn: "7d" }
+      );
 
-  success: true,
-
-  message: "Registration successful"
-
-});
+      return res.status(200).json({
+        success: true,
+        message: "Registration successful",
+        token: token,
+        role: user.role
+      });
 
 
 
@@ -549,23 +554,17 @@ router.post(
 
     try {
 
-      const {
+      const { email, phone, password } = req.body;
 
-        email,
-        password
+      if (!password || (!email && !phone)) {
+        return res.status(400).json({ message: "Email/Phone and password are required" });
+      }
 
-      } = req.body;
+      let query = {};
+      if (email) query.email = email;
+      if (phone) query.phone = phone;
 
-
-
-      const user =
-        await User.findOne({
-
-          email
-
-        });
-
-
+      const user = await User.findOne(query);
 
       if(!user){
 
@@ -611,7 +610,7 @@ router.post(
           process.env.EMAIL_USER,
 
         to:
-          email,
+          user.email,
 
         subject:
           "BusFlux Login Alert",

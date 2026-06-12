@@ -668,7 +668,7 @@ if (busList) {
           : '';
 
         cardsHtml += `
-          <div class="bus-card" style="animation-delay: ${index * 0.08}s" onclick="openBookingModal('${bus._id}')">
+          <div class="bus-card" style="animation-delay: ${index * 0.08}s">
             ${photoHtml}
             <div class="bus-card-content">
               <div class="bus-header">
@@ -699,8 +699,8 @@ if (busList) {
               ${stopsPreview}
 
               <div class="bus-footer">
-                <span class="bus-footer-info"><i class="fas fa-id-card"></i> Spot Billing & Pass Only</span>
-                <button class="book-now-btn">Book Seat</button>
+                <span class="bus-footer-info"><i class="fas fa-ticket-alt"></i> Online Booking Available</span>
+                <button class="book-now-btn" onclick="openBookingModal('${bus._id}')">Book Seat</button>
               </div>
             </div>
           </div>
@@ -741,7 +741,9 @@ async function openBookingModal(busId) {
     _currentBusData = bus;
 
     // Populate modal header
-    document.getElementById("bkBusName").textContent = bus.busName + " · " + bus.departureTime + " → " + bus.arrivalTime;
+    const depTime = bus.departureTime || '08:00 AM';
+    const arrTime = bus.arrivalTime || '12:30 PM';
+    document.getElementById("bkBusName").textContent = bus.busName + " · " + depTime + " → " + arrTime;
     document.getElementById("bkFrom").textContent = bus.from;
     document.getElementById("bkTo").textContent   = bus.to;
 

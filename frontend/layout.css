@@ -1,20 +1,4 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="BusFlux - Book bus tickets effortlessly with our modern platform and enjoy a hassle-free journey.">
-  <title>BusFlux - Travel Smart. Travel Easy.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#6C3FD6">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 
-  <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -59,9 +43,9 @@
       min-height: 100vh;
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════════
        SIDEBAR
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ════════════════════════════════════════ */
     .sidebar {
       width: var(--sidebar-w);
       background: var(--sidebar-bg);
@@ -248,9 +232,9 @@
       text-decoration: none;
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════════
        MAIN CONTENT
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ════════════════════════════════════════ */
     .main-content {
       margin-left: var(--sidebar-w);
       flex: 1;
@@ -368,9 +352,9 @@
       padding: 0;
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════════
        HERO SECTION
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ════════════════════════════════════════ */
     .hero-section {
       background: linear-gradient(160deg, #F0ECFF 0%, #E8E2FF 40%, #EDE9FE 100%);
       padding: 40px 32px 0;
@@ -456,9 +440,9 @@
       50% { transform: translateY(-8px); }
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════════
        SEARCH WIDGET
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ════════════════════════════════════════ */
     .search-widget {
       background: white;
       border-radius: var(--radius-lg);
@@ -618,9 +602,9 @@
       font-size: 0.75rem;
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════════
        FEATURE CARDS
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ════════════════════════════════════════ */
     .section-pad {
       padding: 8px 32px 24px;
     }
@@ -699,9 +683,9 @@
       border-color: var(--primary);
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════════
        OFFER BANNER
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ════════════════════════════════════════ */
     .offer-banner {
       margin: 0 32px 24px;
       background: linear-gradient(135deg, #6C3FD6 0%, #8B5CF6 60%, #A78BFA 100%);
@@ -797,9 +781,9 @@
       50% { transform: translateY(-8px) rotate(3deg); }
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════════
        STATS SECTION
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ════════════════════════════════════════ */
     .stats-section {
       padding: 8px 32px 32px;
       display: flex;
@@ -900,9 +884,9 @@
 
     .trust-rating i { color: #FBBF24; font-size: 0.8rem; }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════════
        NOTIFICATION DROPDOWN
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ════════════════════════════════════════ */
     .noti-dropdown {
       position: absolute;
       top: 50px;
@@ -945,9 +929,9 @@
     .user-noti-item .msg { font-size: 0.78rem; color: var(--text-medium); line-height: 1.4; }
     .user-noti-item .time { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════════
        TOAST
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ════════════════════════════════════════ */
     #toastContainer {
       position: fixed;
       top: 20px;
@@ -990,9 +974,9 @@
     @keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
     @keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateX(20px); } }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════════
        SIDEBAR MOBILE TOGGLE
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ════════════════════════════════════════ */
     .mobile-menu-btn {
       display: none;
       width: 38px;
@@ -1017,9 +1001,9 @@
       backdrop-filter: blur(2px);
     }
 
-    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    /* ════════════════════════════════════════
        RESPONSIVE
-    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+    ════════════════════════════════════════ */
     @media (max-width: 1100px) {
       .feature-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -1057,297 +1041,17 @@
       .hero-img-wrap { display: none; }
       .hero-text h1 { font-size: 1.8rem; }
     }
-  </style>
-</head>
-<body>
+  
 
-<div class="app-layout">
 
-  <!-- ── Sidebar ── -->
-  <aside class="sidebar" id="sidebar">
-    <a href="index.html" class="sidebar-logo">
-      <div class="logo-icon"><i class="fas fa-bus-alt"></i></div>
-      <span>Bus<b>Flux</b></span>
-    </a>
-
-    <nav class="sidebar-nav" id="sidebarNav">
-      <a href="index.html" class="nav-item active" id="sideNavHome">
-        <i class="fas fa-home"></i> Home
-      </a>
-      <a href="buses.html" class="nav-item" id="sideNavBuses">
-        <i class="fas fa-bus"></i> Buses
-      </a>
-      <a href="bookings.html" class="nav-item" id="sideNavBookings">
-        <i class="fas fa-ticket"></i> My Bookings
-      </a>
-      <a href="wallet.html" class="nav-item" id="sideNavWallet">
-        <i class="fas fa-wallet"></i> Wallet
-      </a>
-      <a href="history.html" class="nav-item" id="sideNavHistory">
-        <i class="fas fa-clock-rotate-left"></i> History
-      </a>
-
-      <div class="nav-section-label">More</div>
-
-      <a href="#" class="nav-item" onclick="showOffersToast(); return false;">
-        <i class="fas fa-tag"></i> Offers
-      </a>
-      <a href="#" class="nav-item" onclick="scrollToStats(); return false;">
-        <i class="fas fa-location-dot"></i> Track Bus
-      </a>
-      <a href="#" class="nav-item" onclick="showHelpToast(); return false;">
-        <i class="fas fa-circle-question"></i> Help Center
-      </a>
-    </nav>
-
-    <!-- Promo sidebar -->
-    <div class="sidebar-offer" id="sidebarOffer" style="display:none;">
-      <div class="off-badge">Get 10% OFF</div>
-      <p>On your first booking</p>
-      <div class="coupon">FLUX10 <i class="fas fa-scissors"></i></div>
-    </div>
-
-    <!-- User bottom -->
-    <div class="sidebar-user" id="sidebarUser" onclick="handleSidebarUserClick()">
-      <div class="sidebar-user-avatar" id="sidebarAvatar">
-        <i class="fas fa-user"></i>
-      </div>
-      <div class="sidebar-user-info">
-        <strong id="sidebarUserName">Hi, Traveler 👋</strong>
-        <a href="login.html" id="sidebarUserAction">Login / Sign up</a>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Sidebar overlay for mobile -->
-  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-
-  <!-- ── Main Content ── -->
-  <div class="main-content">
-
-    <!-- Top Bar -->
-    <header class="top-bar">
-      <button class="mobile-menu-btn" onclick="openSidebar()" aria-label="Open menu">
-        <i class="fas fa-bars"></i>
-      </button>
-
-      <div class="search-bar">
-        <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search for routes, cities or buses..." id="globalSearch"
-            oninput="handleGlobalSearch(this.value)"
-            onkeydown="if(event.key==='Enter' && this.value.trim().length>0){ clearTimeout(window._searchRedirectTimer); window.location.href='buses.html?search='+encodeURIComponent(this.value.trim()); }"
-            autocomplete="off">
-      </div>
-
-              <div class="top-bar-actions">
-          
-          <div class="noti-wrap" id="notiWrap" style="display:none; position: relative;">
-            <button class="icon-btn" onclick="toggleNotiDropdown(event)" id="notiBtn">
-              <i class="fas fa-bell"></i>
-              <span class="noti-dot" id="userNotiDot"></span>
-            </button>
-            <div class="noti-dropdown" id="userNotiDropdown">
-              <div class="noti-header">
-                <h4>Notifications</h4>
-                <button onclick="clearUserNotifications(event)">Clear all</button>
-              </div>
-              <div class="noti-list" id="userNotiList">
-                <div style="text-align:center;color:var(--text-muted);padding:20px;font-size:0.85rem;">Loading...</div>
-              </div>
-            </div>
-          </div>
-          
-          </div>
-      </header>
-
-    <!-- Page Scroll Area -->
-    <div class="page-scroll">
-
-      <!-- Hero -->
-      <section class="hero-section">
-        <div class="hero-text">
-          <h1>Travel Smart.<br><span>Travel Easy.</span></h1>
-          <p>Book bus tickets effortlessly with our modern platform and enjoy a hassle-free journey.</p>
-          <div class="hero-badges">
-            <span class="hero-badge"><i class="fas fa-bolt"></i> Quick Booking</span>
-            <span class="hero-badge green"><i class="fas fa-shield-alt"></i> Secure Payments</span>
-            <span class="hero-badge blue"><i class="fas fa-headset"></i> 24/7 Support</span>
-          </div>
-        </div>
-        <div class="hero-img-wrap">
-          <img src="busflux_hero_main.png" alt="BusFlux bus" onerror="this.style.display='none'">
-        </div>
-      </section>
-
-      <!-- Search Widget -->
-      <div class="search-widget">
-        <div class="trip-tabs">
-          <button class="trip-tab active" onclick="setTripTab(this)">One Way</button>
-          <button class="trip-tab" onclick="setTripTab(this)">Round Trip</button>
-          <button class="trip-tab" onclick="setTripTab(this)">Multi City</button>
-        </div>
-        <div class="search-fields">
-          <div class="search-field">
-            <label>From</label>
-            <div class="search-field-inner">
-              <i class="fas fa-location-dot"></i>
-              <input type="text" id="searchFrom" placeholder="Select source" list="fromCities" autocomplete="off">
-              <datalist id="fromCities"></datalist>
-            </div>
-          </div>
-
-          <button class="swap-btn" onclick="swapLocations()" title="Swap">
-            <i class="fas fa-arrow-right-arrow-left"></i>
-          </button>
-
-          <div class="search-field">
-            <label>To</label>
-            <div class="search-field-inner">
-              <i class="fas fa-location-dot"></i>
-              <input type="text" id="searchTo" placeholder="Select destination" list="toCities" autocomplete="off">
-              <datalist id="toCities"></datalist>
-            </div>
-          </div>
-
-          <div class="search-field">
-            <label>Journey Date</label>
-            <div class="search-field-inner">
-              <i class="fas fa-calendar-alt"></i>
-              <input type="date" id="searchDate">
-            </div>
-          </div>
-
-          <div class="search-field">
-            <label>Passengers</label>
-            <div class="search-field-inner">
-              <i class="fas fa-user"></i>
-              <select id="searchPassengers">
-                <option value="1">1 Passenger</option>
-                <option value="2">2 Passengers</option>
-                <option value="3">3 Passengers</option>
-                <option value="4">4 Passengers</option>
-                <option value="5">5 Passengers</option>
-              </select>
-            </div>
-          </div>
-
-          <button class="search-bus-btn" onclick="searchBuses()">
-            Search Buses
-            <span class="btn-arrow"><i class="fas fa-arrow-right"></i></span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Feature Cards -->
-      <div class="section-pad">
-        <div class="feature-grid">
-          <div class="feature-card" onclick="window.location.href='buses.html'">
-            <div class="feature-icon purple"><i class="fas fa-bolt"></i></div>
-            <h3>Instant Booking</h3>
-            <p>Book your tickets in just a few clicks.</p>
-            <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon green"><i class="fas fa-shield-alt"></i></div>
-            <h3>Secure &amp; Safe</h3>
-            <p>Your payments and data are always protected.</p>
-            <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
-          </div>
-          <div class="feature-card" onclick="window.location.href='buses.html'">
-            <div class="feature-icon blue"><i class="fas fa-route"></i></div>
-            <h3>Express Routes</h3>
-            <p>Multiple direct routes connecting key cities.</p>
-            <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon orange"><i class="fas fa-headset"></i></div>
-            <h3>24/7 Support</h3>
-            <p>Our support team is always here for you.</p>
-            <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Offer Banner -->
-      <div class="offer-banner">
-        <div class="offer-text">
-          <h2>Save More on Every Journey</h2>
-          <p>Exclusive offers and discounts on your favorite routes. Limited time only!</p>
-          <button class="offer-explore-btn" onclick="showOffersToast()">
-            <i class="fas fa-tag"></i> Explore Offers
-          </button>
-        </div>
-        <div class="offer-badge-wrap">
-          <div class="offer-pct-badge">
-            <span class="pct">30%</span>
-            <span class="pct-label">UP TO<br>OFF</span>
-          </div>
-          <img src="busflux_offer_gift.png" alt="Offer" class="offer-gift-img" onerror="this.style.display='none'">
-        </div>
-      </div>
-
-      <!-- Stats -->
-      <div class="stats-section" id="statsSection">
-        <div class="stat-item">
-          <div class="stat-icon purple"><i class="fas fa-users"></i></div>
-          <div class="stat-data">
-            <strong>10K+</strong>
-            <span>Happy Customers</span>
-          </div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-icon blue"><i class="fas fa-bus"></i></div>
-          <div class="stat-data">
-            <strong>1,200+</strong>
-            <span>Daily Bus Services</span>
-          </div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-icon green"><i class="fas fa-route"></i></div>
-          <div class="stat-data">
-            <strong>250+</strong>
-            <span>Routes Covered</span>
-          </div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-icon orange"><i class="fas fa-shield-alt"></i></div>
-          <div class="stat-data">
-            <strong style="color:var(--warning);">99.9%</strong>
-            <span>On-Time Guarantee</span>
-          </div>
-        </div>
-        <div class="stat-trust">
-          <span class="trust-label">Trusted by thousands of travelers</span>
-          <div class="trust-avatars">
-            <div class="trust-avatar">A</div>
-            <div class="trust-avatar">B</div>
-            <div class="trust-avatar">C</div>
-            <div class="trust-avatar">D</div>
-            <div class="trust-avatar">+</div>
-          </div>
-          <div class="trust-rating"><i class="fas fa-star"></i> 4.8 Average Rating</div>
-        </div>
-      </div>
-
-    </div><!-- end page-scroll -->
-  </div><!-- end main-content -->
-</div><!-- end app-layout -->
-
-<!-- Hidden navLinks for script.js compatibility -->
-<ul id="navLinks" style="display:none;"></ul>
-
-<div id="toastContainer"></div>
-
-<script src="script.js?v=10"></script>
-<script src="ui-layout.js?v=4"></script>
-</body>
-</html>
+/* Remove white container backgrounds to match index.html flow */
+.container { background: transparent !important; border: none !important; box-shadow: none !important; backdrop-filter: none !important; margin-top: 10px !important; }
 
 
 
 
-
-
-
-
+/* Sidebar Notifications Styling */
+.noti-dropdown.sidebar-noti { position: static; width: 100%; box-shadow: none; border: none; border-radius: 0; background: var(--bg); margin-top: 4px; padding: 0; }
+.sidebar-noti .noti-header { background: transparent; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+.sidebar-noti .user-noti-item { border-bottom: 1px solid var(--border); }
 
